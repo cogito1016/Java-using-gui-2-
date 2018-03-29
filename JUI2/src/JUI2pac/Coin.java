@@ -35,7 +35,7 @@ public class Coin extends Sprite{
 		 *쭉쭉올라가서 이제 미사일이 화면끝까지 올라가면 더이상 그릴필요가없습니다.
 		 *그러면 조건문에 따라서 더이상 y의값을 수정해주지않겠습니다.*/
 		if(y>0)
-			y-=MISSILE_SPEED;	
+			x-=MISSILE_SPEED;	
 	}
 	
 }
