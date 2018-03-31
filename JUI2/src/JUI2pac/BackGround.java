@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -29,10 +30,16 @@ public class BackGround extends JPanel implements ActionListener, KeyListener
 	private final int DELAY = 10;
 	private int x,y,dx,dy;
 	
+	//test
+	private int coin_controller=0;
+	
 	Random random = new Random();
 	
+	//스레드를추가했으나 게임 전체가 멈춤..
+	Thread thread = new Thread();
+	
 	//인덱스를선언합시다.
-		private final int INDEX=0;
+	private final int INDEX=0;
 		
 		
 	/*Application ArrayList Part
@@ -94,6 +101,16 @@ public class BackGround extends JPanel implements ActionListener, KeyListener
 		y=HEIGHT-random.nextInt(300);
 		m=new Coin(x,y);
 		mlist.add(m);
+		
+		/*
+		//게임전체말고 fire만 멈추는법은없을까...
+		try {
+			thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
 		
 		/*원활한코드작성에 객체의정보를참조하기위해 리스트의크기와 객체정보를 출력하는 구문
 		System.out.println("현재 리스트의크기 "+mlist.size());
@@ -169,42 +186,54 @@ public class BackGround extends JPanel implements ActionListener, KeyListener
 		Toolkit.getDefaultToolkit().sync();
 		}
 	
+	
+	
 	//이는 액션이벤트를 처리하는 메소드입니다.
 	public void actionPerformed(ActionEvent e) {  
+		/*기존의 fire()메소드를 그냥 실행하면 미사일이 너무 많이 발사됨
+		 * 따라서 coin_controller를 사용하여 발사해줄 필요가 있다 */
+		coin_controller++;
+		if(coin_controller%50==0)
+			fire();
+		
 		//우주선을움직이는 메소드를 호출합니다.
 		ship.move();
-		
+				
 		/*Application ArrayList Part
 		 *만약에 미사일의값이 null이아니면 => 이 뜻은 우주선에서 미사일을 Fire()시켰다는 의미이며
-		 *따라서 getmisile()의 값은 null이 아닌, 우주선의 현재위치(x,y)값이있는 객체를 의미합니다
+		*따라서 getmisile()의 값은 null이 아닌, 우주선의 현재위치(x,y)값이있는 객체를 의미합니다
 		 *또, ship.mlist.size()>0은 => 리스트가 0보다 크다는 의미이고, missile을 담을
 		 *ArrayList에 미사일객체가 하나라도 있다는것을 의미합니다.
 		 *조건 두개를 AND연산시켜 혹시모를 충돌을 최대한 피해갔습니다.*/
 		if(getMissile() != null && mlist.size()>0)
 		{
-
 			/*Application ArrayList Part
-			 *오류나는 for-each삭제하고 일반 for문으로 표현해보았습니다.
-			 *Missile타입의 m필드를 선언하고 이곳에는 arraylist mlist에 들어있는 객체를 넣고,
-			 *만약 그 미사일객체의 y값이 0보다 크다면 그 미사일 객체 m을 움직이게해주는 move메소드를
-			 *호출합니다. 만약에 그 객체의 y값이 0보다 크지않다면?, 즉 y<=0 이라면 
-			 *이객체는 더이상 화면에 표시할 이유가없고 사라져야합니다.
-			 *사라지는것은 mlist에서 이 객체를 삭제하는것으로 구현하였습니다.
-			 *Arraylist mlist에서 이 객체를 삭제하는것으로 메모리도 절약하고 효과적으로
-			 *객체도 지우는 프로그램이되었습니다.*/
-			for(int i=0; i<mlist.size();i++)
-			{
-				Coin m = mlist.get(i);
-				if(m.x>0)
-				{m.move();}
-				else
-				{rmMisobj();}
-			}
+		 *오류나는 for-each삭제하고 일반 for문으로 표현해보았습니다.
+		 *Missile타입의 m필드를 선언하고 이곳에는 arraylist mlist에 들어있는 객체를 넣고,
+		 *만약 그 미사일객체의 y값이 0보다 크다면 그 미사일 객체 m을 움직이게해주는 move메소드를
+		 *호출합니다. 만약에 그 객체의 y값이 0보다 크지않다면?, 즉 y<=0 이라면 
+		 *이객체는 더이상 화면에 표시할 이유가없고 사라져야합니다.
+		 *사라지는것은 mlist에서 이 객체를 삭제하는것으로 구현하였습니다.
+		 *Arraylist mlist에서 이 객체를 삭제하는것으로 메모리도 절약하고 효과적으로
+		 *객체도 지우는 프로그램이되었습니다.*/
+		for(int i=0; i<mlist.size();i++)
+		{
+			Coin m = mlist.get(i);
+			if(m.x>0)
+			{m.move();}
+			else
+			{rmMisobj();}
 		}
-		//계속하여 다시 그려줍니다.
-		repaint();
+	}
+	//계속하여 다시 그려줍니다.
+	repaint();
+
+		
 	}
 	
+
+
+
 	/*키를받는 메소드들입니다.
 	 *키를 입력받았을 때에 우주선에있는 메소드를 호출하여 우주선의 이동값을 변경시켜
 	 *결과적으로 키를눌렀을 시 그 방향으로 움직이게하고, 떼었을 시 우주선을 멈추게하는
@@ -218,7 +247,7 @@ public class BackGround extends JPanel implements ActionListener, KeyListener
 		//case KeyEvent.VK_RIGHT: dx=1; break;			
 		//case KeyEvent.VK_UP: dy=-1; break;			
 		//case KeyEvent.VK_DOWN: dy=1; break;		
-		case KeyEvent.VK_SPACE: fire(); break;
+		//case KeyEvent.VK_SPACE: fire(); break;
 		}}
 	public void keyReleased(KeyEvent e) {ship.keyReleased(e);}
 	public void keyTyped(KeyEvent arg0){}
