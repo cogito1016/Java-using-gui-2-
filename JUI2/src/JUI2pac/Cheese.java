@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 //미사일의 정보가있는 클래스입니다.
-public class Coin extends Sprite{
+public class Cheese extends Sprite{
 	//미사일스피드를 정하는 필드를 선언합니다 초기값은 2입니다.
 	private final int MISSILE_SPEED = 2;
 	
@@ -14,11 +14,11 @@ public class Coin extends Sprite{
 	 * 객체가 화면을벗어나면 삭제되느것을 구현하기위한 spaceship메소드를사용하기위해 spaceship변수 ship을 선언합니다.*/
 	
 	//미사일클래스의 생성자를 선언합니다 미사일클래스는 매개변수 x와y를 받습니다.
-	public Coin(int x, int y)
+	public Cheese(int x, int y)
 	{
 		//생성자에서는 미사일 이미지를 설정하고 예외처리로 종료하게끔 만듭니다.
 	    try {
-	    	 image =ImageIO.read(new File("Missile.png"));
+	    	 image =ImageIO.read(new File("cheese.png"));
 	    }catch (IOException e) {
 	     e.printStackTrace();
 	    }

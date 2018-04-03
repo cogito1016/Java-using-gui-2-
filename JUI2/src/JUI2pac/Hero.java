@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 //우주선의 정보를 담은 클래스 생성합니다.
-public class Hero extends Sprite{
+public class Hero extends Sprite {
 
 
 	
@@ -17,22 +17,25 @@ public class Hero extends Sprite{
 		
 		//생성자에서는 우주선의 이미지를 설정하고 예외처리로 종료하게끔 만듭니다.
 	     try {
-	        image = ImageIO.read(new File("SpaceShip.png"));
+	        image = ImageIO.read(new File("mouse2.png"));
 	     }catch (IOException e) {
 	        e.printStackTrace();
 	      }
+
+		    
 	    //이것은 초기 우주선의 위치값을 설정한 것 입니다.
-		x=500;
-		y=400;
+		x=100;
+		y=300;
 		
 	}
+
 	//움직임을 표현한 메소드 move입니다.
 	public void move()
 	{
 		x+=dx;
 		y+=dy;
 	}
-
+	
 	//키를눌렀을때 발생하는 이벤트를 위한 클래스 KeyPressed입니다. 
 	public void keyPressed(KeyEvent e)
 	{
@@ -46,9 +49,6 @@ public class Hero extends Sprite{
 		{
 		case KeyEvent.VK_LEFT: dx=-1; break;		
 		case KeyEvent.VK_RIGHT: dx=1; break;			
-		case KeyEvent.VK_UP: dy=-1; break;			
-		case KeyEvent.VK_DOWN: dy=1; break;		
-		//case KeyEvent.VK_SPACE: fire(); break;
 		}
 	
 	}

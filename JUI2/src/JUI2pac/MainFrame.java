@@ -21,6 +21,38 @@ import javax.swing.Timer;
 //이제 프레임을 그려주는 클래스를 구현합니다.
 public class MainFrame extends JFrame
 {
+	/*
+	class MyThread extends Thread{
+
+		private JLabel label;
+		private int x,y;
+		public MyThread(String fname, int x, int y)
+		{
+			this.x=x;
+			this.y=y;
+			label = new JLabel();
+			label.setIcon(new ImageIcon(fname));
+			label.setBounds(x,y,100,100);
+			add(label);
+		}
+		public void run()
+		{
+			for(int i =0; i<200; i++)
+			{
+				x+=10*Math.random();
+				label.setBounds(x,y,300,300);
+				repaint();
+				try {
+					Thread.sleep(100);
+				}catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	*/
+	
 	//프레임의생성자입니다.
 	public MainFrame()
 	{
@@ -31,8 +63,17 @@ public class MainFrame extends JFrame
 		add(new BackGround());
 		setTitle("Catch The Coin");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		/*
+		(new MyThread("missile.png",100,0)).start();
+		(new MyThread("missile.png",100,50)).start();
+		(new MyThread("missile.png",100,100)).start();
+		*/
+		
 		pack();
+		
 		setVisible(true);
+		
 	}
 	
 	//메인메소드에서는 프레임객체를 만들어줌으로서 프로그램을 실행시킵니다.

@@ -12,10 +12,14 @@ public class Sprite{
 	public int x;
 	public int y;
 	public BufferedImage image;
+
+	
 	
 	//접근자 getX와 getY그리고 getImage를 구현합니다.
 	public int getX() {return x;}
 	public int getY() {return y;}
 	public Image getImage(){return image;}
+	public int getWidth() {return image.getWidth();}
+	public int getHeight() {return image.getHeight();}
 	
 }
